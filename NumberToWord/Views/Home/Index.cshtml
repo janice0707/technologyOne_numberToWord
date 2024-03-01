@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <h1>Convert number to words</h1>
+    <br/>
+    <div class="row">
+        <div class="col-12 col-md-6 ">
+            <div class="form-group">
+                <label for="numberInput">Input Numbers</label>
+                <input type="number" class="form-control" name="numberInput" id="numberInput" aria-describedby="numberInput" step=".01" placeholder="Enter numbers">
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-6">
+            <button onclick="Convert()" type="button" class="btn btn-primary">Convert</button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="numberOutput">Output Words</label>
+                <div id="numberOutput" name="numberOutput" style="font-weight:bold">-</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+
+    $(document).ready(function () {
+       
+    });
+
+    function Convert() {
+        var number = $('#numberInput').val();
+
+        $.ajax({
+            type: "GET",
+            dataType: "Json",
+            url: '@Url.Action("ConvertToWords", "Home")' + '?number=' + number,
+            async: false,
+            success: function (data) {
+                if (data == null) {
+                    $("#numberOutput").html("Error occurs");
+                } else {
+                        $("#numberOutput").html(data);
+                }
+            },
+                error: function (error) {
+                $("#numberOutput").html("Error occurs");
+            }
+        });
+    }
+
+</script>
+}
